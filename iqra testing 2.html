@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iqra 1 - Huruf Fathah</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to bottom, #d0f0ff, #ffffff);
+      background-image: url('https://www.transparenttextures.com/patterns/white-wall.png');
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #0077cc;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .huruf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .huruf-card {
+      background-color: #ffffffcc;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 12px;
+      position: relative;
+    }
+
+    .huruf {
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #333;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .huruf:hover {
+      transform: scale(1.2);
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button {
+      background-color: #ffcc00;
+      color: #333;
+      border: none;
+      border-radius: 8px;
+      padding: 5px 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #ffaa00;
+    }
+
+    #resetBtn {
+      margin-top: 30px;
+      background-color: #ff6666;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+
+    #resetBtn:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Iqra 1: Huruf Fathah</h1>
+
+  <div class="huruf-grid" id="hurufContainer"></div>
+
+  <button id="resetBtn">Reset</button>
+
+  <script>
+    const huruf = ['أَ','بَ','تَ','ثَ','جَ','حَ','خَ','دَ','ذَ','رَ','زَ','سَ','شَ','صَ','ضَ','طَ','ظَ','عَ','غَ','فَ','قَ','كَ','لَ','مَ','نَ','هَ','وَ','يَ'];
+    const container = document.getElementById('hurufContainer');
+
+    function createHurufCard(h, index) {
+      const card = document.createElement('div');
+      card.className = 'huruf-card';
+
+      const span = document.createElement('div');
+      span.className = 'huruf';
+      span.textContent = h;
+      span.onclick = () => {
+        span.textContent = '';
+      };
+
+      const lupaBtn = document.createElement('button');
+      lupaBtn.textContent = 'Lupa';
+      lupaBtn.onclick = () => {
+        span.textContent = '?';
+        lupaBtn.disabled = true;
+        dengarBtn.disabled = true;
+      };
+
+      const dengarBtn = document.createElement('button');
+      dengarBtn.textContent = 'Dengar';
+      dengarBtn.onclick = () => {
+        const msg = new SpeechSynthesisUtterance(h);
+        msg.lang = 'ar-SA';
+        window.speechSynthesis.speak(msg);
+      };
+
+      const btnGroup = document.createElement('div');
+      btnGroup.className = 'button-group';
+      btnGroup.appendChild(lupaBtn);
+      btnGroup.appendChild(dengarBtn);
+
+      card.appendChild(span);
+      card.appendChild(btnGroup);
+
+      return card;
+    }
+
+    function renderHuruf() {
+      container.innerHTML = '';
+      huruf.forEach((h, index) => {
+        container.appendChild(createHurufCard(h, index));
+      });
+    }
+
+    document.getElementById('resetBtn').onclick = () => {
+      renderHuruf();
+      window.speechSynthesis.cancel();
+    };
+
+    renderHuruf();
+  </script>
+
+</body>
+</html>
